@@ -99,3 +99,37 @@ def ordenar_y_mostrar(lista):
     print("\n--- LISTA DE EXPEDIENTES ORDENADOS POR DNI ---")
     for exp in lista:
         print("DNI: " + exp[1] + " | Código: " + exp[0] + " | Nombres: " + exp[2])
+        
+
+# ==========================================
+# CÓDIGO PRINCIPAL (El que junta las piezas)
+# ==========================================
+
+# 1. Creamos la lista vacía
+expedientes_memoria = []
+
+# 2. Leemos si hay datos guardados de antes
+cargar_datos(expedientes_memoria)
+
+# 3. Iniciamos el bucle del menú
+opcion_elegida = ""
+
+while opcion_elegida != "4":
+    opcion_elegida = mostrar_menu()
+    
+    if opcion_elegida == "1":
+        nuevo = registrar_expediente(expedientes_memoria)
+        if nuevo != None:
+            guardar_en_archivo(nuevo)
+            
+    elif opcion_elegida == "2":
+        buscar_expediente(expedientes_memoria)
+        
+    elif opcion_elegida == "3":
+        ordenar_y_mostrar(expedientes_memoria)
+        
+    elif opcion_elegida == "4":
+        print("Programa cerrado. ¡Hasta luego!")
+        
+    else:
+        print("Opción incorrecta. Intenta de nuevo.")
