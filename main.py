@@ -77,3 +77,25 @@ def buscar_expediente(lista):
             return # Termina la búsqueda porque ya lo encontró
             
     print("\nNo existe ese código.")
+    
+
+# ==========================================
+# PERSONA 4: Ordenar y Mostrar (Algoritmo Burbuja)
+# ==========================================
+def ordenar_y_mostrar(lista):
+    cantidad = len(lista)
+    
+    # Algoritmo de Burbuja clásico (Ordena por DNI)
+    for i in range(cantidad):
+        for j in range(0, cantidad - 1):
+            # Comparamos el DNI (que está en la posición 1 de cada expediente)
+            if lista[j][1] > lista[j+1][1]:
+                # Intercambiar de lugar usando una variable temporal
+                temporal = lista[j]
+                lista[j] = lista[j+1]
+                lista[j+1] = temporal
+                
+    # Mostrar la lista ya ordenada
+    print("\n--- LISTA DE EXPEDIENTES ORDENADOS POR DNI ---")
+    for exp in lista:
+        print("DNI: " + exp[1] + " | Código: " + exp[0] + " | Nombres: " + exp[2])
