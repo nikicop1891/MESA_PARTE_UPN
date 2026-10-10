@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="card shadow border-0">
+    <div class="card-header bg-secondary text-white">
+        <h4 class="card-title mb-0">Listado de Expedientes Registrados</h4>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Código</th>
+                        <th>DNI/RUC</th>
+                        <th>Solicitante</th>
+                        <th>Asunto</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Bucle Jinja2 para recorrer la lista de expedientes -->
+                    {% for exp in expedientes %}
+                    <tr>
+                        <td class="fw-bold text-primary">{{ exp[0] }}</td>
+                        <td>{{ exp[1] }}</td>
+                        <td>
+                            {{ exp[3] }} <br>
+                            <small class="text-muted">{{ exp[2] }}</small>
+                        </td>
+                        <td>{{ exp[7] }}</td>
+                        <td>
+                            <!-- Lógica para pintar las etiquetas de estado -->
+                            {% if exp[10] == 'Pendiente' %}
+                                <span class="badge bg-warning text-dark">{{ exp[10] }}</span>
+                            {% elif exp[10] == 'Atendido' %}
+                                <span class="badge bg-success">{{ exp[10] }}</span>
+                            {% elif exp[10] == 'En revisión' %}
+                                <span class="badge bg-info text-dark">{{ exp[10] }}</span>
+                            {% else %}
+                                <span class="badge bg-danger">{{ exp[10] }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Se ejecuta si la lista enviada por Python está vacía -->
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">No hay expedientes registrados en el sistema.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

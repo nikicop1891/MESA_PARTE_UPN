@@ -1,0 +1,5 @@
+EXP-0001|12345678|Persona Natural|11111111111111111|22222222222222|3|3444444|555656|67676|Sin documentos adjuntos|Atendido
+EXP-0002|12345678|Persona Jurídica|rererererw|wrwe|werwerw|werwe|||Sin documentos adjuntos|Pendiente
+EXP-0003|12345678912|Persona Jurídica|rere|ere|rere|rere|rere|re|Sin documentos adjuntos|Pendiente
+EXP-0004|12345678912|Persona Natural|rerere|wew|werwerew|werwerwe|rwe|werew|Sin documentos adjuntos|Pendiente
+EXP-0005|46842816|Persona Natural|RAFAEL REYES HONORIO|CALLE 7904|RAFAEL@CORREO.COM|959507354|TRAMITE PERSONAL|NECESITO VALIDAR UN DOCUMENTO|https://drive.google.com/file/d/|Pendiente

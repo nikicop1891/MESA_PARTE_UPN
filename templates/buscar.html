@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="card shadow border-0 mx-auto" style="max-width: 600px;">
+    <div class="card-header bg-success text-white">
+        <h4 class="card-title mb-0">Buscar Expediente</h4>
+    </div>
+    <div class="card-body p-4">
+        
+        <!-- Formulario de búsqueda -->
+        <form method="POST" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="termino" class="form-control" placeholder="Ingrese DNI, RUC o Código (Ej: EXP-0001)" required>
+                <button type="submit" class="btn btn-success fw-bold">Buscar</button>
+            </div>
+        </form>
+
+        <!-- Mensaje de error si no se encuentra nada -->
+        {% if mensaje %}
+        <div class="alert alert-danger text-center">{{ mensaje }}</div>
+        {% endif %}
+
+        <!-- Mostrar los resultados encontrados mediante un bucle -->
+        {% if resultados %}
+            <h5 class="mb-3 text-success">Resultados encontrados:</h5>
+            {% for exp in resultados %}
+            <div class="alert alert-secondary border">
+                <div class="d-flex justify-content-between">
+                    <p class="mb-1"><strong>Código:</strong> <span class="text-primary fw-bold">{{ exp[0] }}</span></p>
+                    <p class="mb-1"><strong>Estado:</strong> <span class="badge bg-dark">{{ exp[10] }}</span></p>
+                </div>
+                <hr class="my-2">
+                <p class="mb-1"><strong>Solicitante:</strong> {{ exp[3] }} <small class="text-muted">({{ exp[1] }})</small></p>
+                <p class="mb-0"><strong>Asunto:</strong> {{ exp[7] }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

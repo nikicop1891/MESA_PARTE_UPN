@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="card shadow border-0 mt-4 mx-auto" style="max-width: 800px;">
+    <div class="card-header bg-primary text-white">
+        <h4 class="card-title mb-0">Nuevo Trámite</h4>
+    </div>
+    <div class="card-body p-4">
+        
+        <!-- Alerta de éxito o error enviada desde Python -->
+        {% if mensaje %}
+        <div class="alert alert-success fw-bold text-center">{{ mensaje }}</div>
+        {% endif %}
+
+        <!-- Formulario que envía los datos a app.py -->
+        <form method="POST">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">DNI / RUC</label>
+                    <input type="text" name="dni" class="form-control" maxlength="11" placeholder="Ej: 12345678" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Tipo de Persona</label>
+                    <select name="tipo" class="form-select" required>
+                        <option value="Persona Natural">Persona Natural</option>
+                        <option value="Persona Jurídica">Persona Jurídica</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Nombres / Razón Social</label>
+                    <input type="text" name="nombres" class="form-control" placeholder="Nombre completo" required>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label class="form-label fw-bold">Asunto del trámite</label>
+                <input type="text" name="asunto" class="form-control" placeholder="Ej: Solicito certificado de estudios" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Guardar Expediente</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
