@@ -186,3 +186,65 @@ def buscar_expediente(lista):
             
     if encontrado == False:
         print("No se encontró ningún registro para esa búsqueda.")
+
+# ==========================================
+def ordenar_y_mostrar(lista):
+    cantidad = len(lista)
+    if cantidad == 0:
+        print("No hay expedientes registrados.")
+        return
+
+    for i in range(cantidad):
+        for j in range(0, cantidad - 1):
+            if lista[j][1] > lista[j+1][1]:
+                temporal = lista[j]
+                lista[j] = lista[j+1]
+                lista[j+1] = temporal
+                
+    print("\n--- EXPEDIENTES ORDENADOS POR DNI/RUC ---")
+    for exp in lista:
+        print("[" + exp[0] + "] Estado: " + exp[10] + " | Doc: " + exp[1] + " | Nombre: " + exp[3])
+
+
+# ==========================================
+# CÓDIGO PRINCIPAL CON PAUSAS DE PANTALLA
+# ==========================================
+expedientes_memoria = []
+cargar_datos(expedientes_memoria)
+
+opcion_elegida = ""
+while opcion_elegida != "7": 
+    opcion_elegida = mostrar_menu()
+    
+    if opcion_elegida == "1":
+        nuevo = registrar_expediente(expedientes_memoria)
+        if nuevo != None:
+            guardar_en_archivo(nuevo)
+        input("\nPresiona ENTER para regresar al menú...")
+            
+    elif opcion_elegida == "2":
+        buscar_expediente(expedientes_memoria)
+        input("\nPresiona ENTER para regresar al menú...")
+        
+    elif opcion_elegida == "3":
+        ordenar_y_mostrar(expedientes_memoria)
+        input("\nPresiona ENTER para regresar al menú...")
+        
+    elif opcion_elegida == "4":
+        actualizar_estado(expedientes_memoria)
+        input("\nPresiona ENTER para regresar al menú...")
+        
+    elif opcion_elegida == "5":
+        anular_expediente(expedientes_memoria)
+        input("\nPresiona ENTER para regresar al menú...")
+        
+    elif opcion_elegida == "6":
+        reporte_estadistico(expedientes_memoria)
+        input("\nPresiona ENTER para regresar al menú...")
+        
+    elif opcion_elegida == "7":
+        print("Programa cerrado. ¡Hasta luego!")
+        
+    else:
+        print("Opción incorrecta. Intenta de nuevo.")
+        input("\nPresiona ENTER para regresar al menú...")
