@@ -1,135 +1,74 @@
-import random
-
-# ==========================================
-# PERSONA 1: Menú Principal
-# ==========================================
 def mostrar_menu():
-    print("---------------------------------")
-    print("      MESA DE PARTES DIGITAL     ")
-    print("---------------------------------")
+    print("\n" * 2) 
+    print("==================================================")
+    print("              MESA DE PARTES DIGITAL              ")
+    print("==================================================")
+    print("¡Hola! Revisa la fecha de recepción de documentos")
+    print("según el art. 46.2 del Decreto Supremo N.° 075-2023-PCM:")
+    print(" - Desde las 00:00 hasta las 18:00 hrs: Se consideran")
+    print("   recibidos el mismo día.")
+    print(" - Después de las 18:00 hasta las 23:59 hrs: Cuentan")
+    print("   desde el día hábil siguiente.")
+    print(" - Sábados, domingos y feriados: Cuentan desde el")
+    print("   día hábil siguiente.")
+    print("--------------------------------------------------")
     print("1. Registrar nuevo expediente")
-    print("2. Buscar expediente")
+    print("2. Buscar por Documento o Código")
     print("3. Ordenar y mostrar todos")
-    print("4. Salir")
-    opcion = input("Elige una opción: ")
+    print("4. Actualizar estado del trámite")
+    print("5. Anular expediente (Eliminar)")
+    print("6. Reporte estadístico gerencial")
+    print("7. Salir")
+    print("==================================================")
+    opcion = input("Elige una opción: ").strip() 
     return opcion
 
-# ==========================================
-# PERSONA 2: Registro de datos
-# ==========================================
-def registrar_expediente(lista):
-    dni = input("Ingresa DNI (8 números): ")
-    if len(dni) != 8:
-        print("Error: El DNI debe tener 8 números.")
-        return # Termina la función aquí mismo si hay error
-
-    nombres = input("Nombres completos: ")
-    asunto = input("Asunto del trámite: ")
-    
-    # Crear código al azar para el expediente
-    numero_azar = random.randint(1000, 9999)
-    codigo = "EXP-" + str(numero_azar)
-    
-    # Crear un arreglo (lista) para este expediente
-    nuevo_expediente = [codigo, dni, nombres, asunto]
-    
-    # Agregar a la lista general
-    lista.append(nuevo_expediente)
-    
-    print("Expediente guardado con éxito. Código: " + codigo)
-    return nuevo_expediente
-
-# ==========================================
-# PERSONA 3: Archivos y Búsqueda
-# ==========================================
-def guardar_en_archivo(expediente):
-    # Abrir el archivo de texto en modo "a" (agregar al final)
-    archivo = open("datos.txt", "a") 
-    linea = expediente[0] + "," + expediente[1] + "," + expediente[2] + "," + expediente[3]
-    archivo.write(linea + "\n")
-    archivo.close()
-
-def cargar_datos(lista):
-    try:
-        # Abrir el archivo de texto en modo "r" (leer)
-        archivo = open("datos.txt", "r") 
-        lineas = archivo.readlines()
-        for linea in lineas:
-            # Limpiar el salto de línea (Enter) y separar por comas
-            linea_limpia = linea.replace("\n", "")
-            datos = linea_limpia.split(",")
-            lista.append(datos)
-        archivo.close()
-    except FileNotFoundError:
-        # Si el archivo no existe (es la primera vez que se abre el programa), no hace nada
-        pass
-
-def buscar_expediente(lista):
-    codigo_buscar = input("Ingresa el código a buscar (ej. EXP-1234): ")
+def actualizar_estado(lista):
+    codigo_buscar = input("Ingresa el Código del expediente a actualizar (Ej: EXP-0001): ").upper().strip()
+    encontrado = False
     
     for exp in lista:
         if exp[0] == codigo_buscar:
-            print("\n--- EXPEDIENTE ENCONTRADO ---")
-            print("Código: " + exp[0])
-            print("DNI: " + exp[1])
-            print("Nombres: " + exp[2])
-            print("Asunto: " + exp[3])
-            return # Termina la búsqueda porque ya lo encontró
+            print("\nTrámite encontrado : " + exp[3] + " - " + exp[7])
+            print("Estado actual      : [" + exp[10] + "]")
+            print("\nNuevos estados disponibles:")
+            print("A) En revisión")
+            print("B) Observado (Falta información)")
+            print("C) Atendido (Finalizado)")
+            nuevo = input("Elige el nuevo estado (A, B o C): ").upper().strip()
             
-    print("\nNo existe ese código.")
-    
-
-# ==========================================
-# PERSONA 4: Ordenar y Mostrar (Algoritmo Burbuja)
-# ==========================================
-def ordenar_y_mostrar(lista):
-    cantidad = len(lista)
-    
-    # Algoritmo de Burbuja clásico (Ordena por DNI)
-    for i in range(cantidad):
-        for j in range(0, cantidad - 1):
-            # Comparamos el DNI (que está en la posición 1 de cada expediente)
-            if lista[j][1] > lista[j+1][1]:
-                # Intercambiar de lugar usando una variable temporal
-                temporal = lista[j]
-                lista[j] = lista[j+1]
-                lista[j+1] = temporal
+            if nuevo == "A":
+                exp[10] = "En revisión"
+            elif nuevo == "B":
+                exp[10] = "Observado"
+            elif nuevo == "C":
+                exp[10] = "Atendido"
+            else:
+                print("Opción inválida. No se cambió el estado.")
+                return
                 
-    # Mostrar la lista ya ordenada
-    print("\n--- LISTA DE EXPEDIENTES ORDENADOS POR DNI ---")
-    for exp in lista:
-        print("DNI: " + exp[1] + " | Código: " + exp[0] + " | Nombres: " + exp[2])
-        
-
-# ==========================================
-# CÓDIGO PRINCIPAL (El que junta las piezas)
-# ==========================================
-
-# 1. Creamos la lista vacía
-expedientes_memoria = []
-
-# 2. Leemos si hay datos guardados de antes
-cargar_datos(expedientes_memoria)
-
-# 3. Iniciamos el bucle del menú
-opcion_elegida = ""
-
-while opcion_elegida != "4":
-    opcion_elegida = mostrar_menu()
-    
-    if opcion_elegida == "1":
-        nuevo = registrar_expediente(expedientes_memoria)
-        if nuevo != None:
-            guardar_en_archivo(nuevo)
+            print("¡Estado actualizado correctamente a: " + exp[10] + "!")
+            reescribir_archivo(lista) 
+            encontrado = True
+            break 
             
-    elif opcion_elegida == "2":
-        buscar_expediente(expedientes_memoria)
-        
-    elif opcion_elegida == "3":
-        ordenar_y_mostrar(expedientes_memoria)
-        
-    elif opcion_elegida == "4":
-        print("Programa cerrado. ¡Hasta luego!")
-        
-    else:
-        print("Opción incorrecta. Intenta de nuevo.")
+    if encontrado == False:
+        print("No se encontró ningún expediente con ese código.")
+
+def anular_expediente(lista):
+    codigo_buscar = input("Ingresa el Código del expediente a ELIMINAR (Ej: EXP-0001): ").upper().strip()
+    
+    for exp in lista:
+        if exp[0] == codigo_buscar:
+            print("\nTrámite a eliminar : " + exp[3] + " - " + exp[7])
+            confirmacion = input("¿Estás seguro de anular este expediente? (S/N): ").upper().strip()
+            
+            if confirmacion == "S":
+                lista.remove(exp)
+                reescribir_archivo(lista)
+                print("¡Expediente " + codigo_buscar + " anulado y eliminado del sistema exitosamente!")
+            else:
+                print("Operación cancelada. El expediente no fue eliminado.")
+            return # Termina la función
+            
+    print("No se encontró ningún expediente con ese código para eliminar.")
