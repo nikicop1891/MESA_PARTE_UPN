@@ -141,3 +141,48 @@ def reporte_estadistico(lista):
     print("---------------------------------------")
 
 # ==========================================
+
+def guardar_en_archivo(expediente):
+    archivo = open("datos.txt", "a") 
+    linea = expediente[0] + "|" + expediente[1] + "|" + expediente[2] + "|" + expediente[3] + "|" + expediente[4] + "|" + expediente[5] + "|" + expediente[6] + "|" + expediente[7] + "|" + expediente[8] + "|" + expediente[9] + "|" + expediente[10]
+    archivo.write(linea + "\n")
+    archivo.close()
+
+def reescribir_archivo(lista):
+    archivo = open("datos.txt", "w") 
+    for exp in lista:
+        linea = exp[0] + "|" + exp[1] + "|" + exp[2] + "|" + exp[3] + "|" + exp[4] + "|" + exp[5] + "|" + exp[6] + "|" + exp[7] + "|" + exp[8] + "|" + exp[9] + "|" + exp[10]
+        archivo.write(linea + "\n")
+    archivo.close()
+
+def cargar_datos(lista):
+    try:
+        archivo = open("datos.txt", "r") 
+        lineas = archivo.readlines()
+        for linea in lineas:
+            linea_limpia = linea.replace("\n", "")
+            datos = linea_limpia.split("|") 
+            if len(datos) == 11: 
+                lista.append(datos)
+        archivo.close()
+    except FileNotFoundError:
+        pass 
+
+def buscar_expediente(lista):
+    termino = input("Ingresa el DNI/RUC o Código a buscar: ").upper().strip()
+    encontrado = False 
+    
+    print("\n--- RESULTADOS DE LA BÚSQUEDA ---")
+    for exp in lista:
+        if exp[0] == termino or exp[1] == termino:
+            print("\nCódigo      : " + exp[0])
+            print("Estado      : [" + exp[10] + "]")
+            print("Solicitante : " + exp[3] + " (" + exp[2] + " - " + exp[1] + ")")
+            print("Contacto    : " + exp[6] + " | " + exp[5])
+            print("Asunto      : " + exp[7])
+            print("Descripción : " + exp[8])
+            print("Sustento    : " + exp[9])
+            encontrado = True
+            
+    if encontrado == False:
+        print("No se encontró ningún registro para esa búsqueda.")
